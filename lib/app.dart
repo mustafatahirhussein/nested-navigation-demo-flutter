@@ -11,14 +11,19 @@ class App extends StatefulWidget {
 }
 
 class AppState extends State<App> {
-  var _currentTab = TabItem.red;
+
+  //var _currentTab = TabItem.red;
+
+  var _currentTab = 0;
+
+
   final _navigatorKeys = {
-    TabItem.red: GlobalKey<NavigatorState>(),
-    TabItem.green: GlobalKey<NavigatorState>(),
-    TabItem.blue: GlobalKey<NavigatorState>(),
+    0: GlobalKey<NavigatorState>(),
+    1: GlobalKey<NavigatorState>(),
+    2: GlobalKey<NavigatorState>(),
   };
 
-  void _selectTab(TabItem tabItem) {
+  void _selectTab(int tabItem) {
     if (tabItem == _currentTab) {
       // pop to first route
       _navigatorKeys[tabItem]!.currentState!.popUntil((route) => route.isFirst);
@@ -35,9 +40,9 @@ class AppState extends State<App> {
             !await _navigatorKeys[_currentTab]!.currentState!.maybePop();
         if (isFirstRouteInCurrentTab) {
           // if not on the 'main' tab
-          if (_currentTab != TabItem.red) {
+          if (_currentTab != 0) {
             // select 'main' tab
-            _selectTab(TabItem.red);
+            _selectTab(0);
             // back button handled by app
             return false;
           }
@@ -47,9 +52,9 @@ class AppState extends State<App> {
       },
       child: Scaffold(
         body: Stack(children: <Widget>[
-          _buildOffstageNavigator(TabItem.red),
-          _buildOffstageNavigator(TabItem.green),
-          _buildOffstageNavigator(TabItem.blue),
+          _buildOffstageNavigator(0),
+          _buildOffstageNavigator(1),
+          _buildOffstageNavigator(2),
         ]),
         bottomNavigationBar: BottomNavigation(
           currentTab: _currentTab,
@@ -59,12 +64,12 @@ class AppState extends State<App> {
     );
   }
 
-  Widget _buildOffstageNavigator(TabItem tabItem) {
+  Widget _buildOffstageNavigator(int tabItem) {
     return Offstage(
       offstage: _currentTab != tabItem,
       child: TabNavigator(
         navigatorKey: _navigatorKeys[tabItem],
-        tabItem: tabItem,
+        //tabItem: tabItem,
       ),
     );
   }

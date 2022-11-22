@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:nested_navigation_demo_flutter/color_detail_page.dart';
 import 'package:nested_navigation_demo_flutter/colors_list_page.dart';
+import 'package:nested_navigation_demo_flutter/list_detail.dart';
+import 'package:nested_navigation_demo_flutter/list_page.dart';
 import 'package:nested_navigation_demo_flutter/tab_item.dart';
 
 class TabNavigatorRoutes {
   static const String root = '/';
-  static const String detail = '/detail';
+  static const String detail = '/test';
 }
 
 class TabNavigator extends StatelessWidget {
   const TabNavigator(
-      {super.key, required this.navigatorKey, required this.tabItem});
+      {super.key, required this.navigatorKey});
   final GlobalKey<NavigatorState>? navigatorKey;
-  final TabItem tabItem;
+  //final TabItem tabItem;
 
-  void _push(BuildContext context, {int materialIndex = 500}) {
-    var routeBuilders = _routeBuilders(context, materialIndex: materialIndex);
+  void _push(BuildContext context) {
+    var routeBuilders = _routeBuilders(context);
 
     Navigator.push(
       context,
@@ -29,17 +31,21 @@ class TabNavigator extends StatelessWidget {
   Map<String, WidgetBuilder> _routeBuilders(BuildContext context,
       {int materialIndex = 500}) {
     return {
-      TabNavigatorRoutes.root: (context) => ColorsListPage(
-            color: tabItem.color,
-            title: tabItem.name,
-            onPush: (materialIndex) =>
-                _push(context, materialIndex: materialIndex),
-          ),
-      TabNavigatorRoutes.detail: (context) => ColorDetailPage(
-            color: tabItem.color,
-            title: tabItem.name,
-            materialIndex: materialIndex,
-          ),
+      // TabNavigatorRoutes.root: (context) => ColorsListPage(
+      //       color: tabItem.color,
+      //       title: tabItem.name,
+      //       onPush: (materialIndex) =>
+      //           _push(context, materialIndex: materialIndex),
+      //     ),
+      // TabNavigatorRoutes.detail: (context) => ColorDetailPage(
+      //       color: tabItem.color,
+      //       title: tabItem.name,
+      //       materialIndex: materialIndex,
+      //     ),
+
+      '/': (context) => ListPage(onPush: (i) => _push(context)),
+      '/test': (context) => ListDetail(),
+
     };
   }
 
